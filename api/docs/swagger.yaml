@@ -1,0 +1,1476 @@
+definitions:
+  booking.AccessCoach:
+    properties:
+      booking_coach_id:
+        type: string
+      date:
+        type: string
+    type: object
+  booking.AccessGroup:
+    properties:
+      booking_group_id:
+        type: string
+      date:
+        type: string
+    type: object
+  booking.AccessPersonal:
+    properties:
+      booking_personal_id:
+        type: string
+      date:
+        type: string
+    type: object
+  booking.BookingCoach:
+    properties:
+      access_status:
+        type: string
+      count:
+        type: integer
+      created_at:
+        type: string
+      deleted_at:
+        type: integer
+      id:
+        type: string
+      payment:
+        type: integer
+      start_date:
+        type: string
+      subscription_id:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  booking.BookingGroup:
+    properties:
+      access_status:
+        type: string
+      count:
+        type: integer
+      created_at:
+        type: string
+      deleted_at:
+        type: integer
+      id:
+        type: string
+      payment:
+        type: integer
+      start_date:
+        type: string
+      subscription_id:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  booking.BookingPersonal:
+    properties:
+      access_status:
+        type: string
+      count:
+        type: integer
+      created_at:
+        type: string
+      deleted_at:
+        type: integer
+      id:
+        type: string
+      payment:
+        type: integer
+      start_date:
+        type: string
+      subscription_id:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  booking.CreateAccessCoachRequest:
+    properties:
+      access_coach:
+        $ref: '#/definitions/booking.AccessCoach'
+    type: object
+  booking.CreateAccessGroupRequest:
+    properties:
+      access_group:
+        $ref: '#/definitions/booking.AccessGroup'
+    type: object
+  booking.CreateAccessPersonalRequest:
+    properties:
+      access_personal:
+        $ref: '#/definitions/booking.AccessPersonal'
+    type: object
+  booking.ListAccessCoachResponse:
+    properties:
+      access_coach:
+        items:
+          $ref: '#/definitions/booking.AccessCoach'
+        type: array
+    type: object
+  booking.ListAccessGroupResponse:
+    properties:
+      access_group:
+        items:
+          $ref: '#/definitions/booking.AccessGroup'
+        type: array
+    type: object
+  booking.ListAccessPersonalResponse:
+    properties:
+      access_personal:
+        items:
+          $ref: '#/definitions/booking.AccessPersonal'
+        type: array
+    type: object
+  booking.ListBookingCoachResponse:
+    properties:
+      booking_coach:
+        items:
+          $ref: '#/definitions/booking.BookingCoach'
+        type: array
+    type: object
+  booking.ListBookingGroupResponse:
+    properties:
+      booking_group:
+        items:
+          $ref: '#/definitions/booking.BookingGroup'
+        type: array
+    type: object
+  booking.ListBookingPersonalResponse:
+    properties:
+      booking_personal:
+        items:
+          $ref: '#/definitions/booking.BookingPersonal'
+        type: array
+    type: object
+  booking.ListSubscriptionCoachResponse:
+    properties:
+      subscription_coach:
+        items:
+          $ref: '#/definitions/booking.SubscriptionCoach'
+        type: array
+    type: object
+  booking.ListSubscriptionGroupResponse:
+    properties:
+      subscription_group:
+        items:
+          $ref: '#/definitions/booking.SubscriptionGroup'
+        type: array
+    type: object
+  booking.ListSubscriptionPersonalResponse:
+    properties:
+      subscription_personal:
+        items:
+          $ref: '#/definitions/booking.SubscriptionPersonal'
+        type: array
+    type: object
+  booking.SubscriptionCoach:
+    properties:
+      coach_id:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: integer
+      description:
+        type: string
+      duration:
+        type: integer
+      gym_id:
+        type: string
+      id:
+        type: string
+      price:
+        type: integer
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  booking.SubscriptionGroup:
+    properties:
+      capacity:
+        type: integer
+      coach_id:
+        type: string
+      count:
+        type: integer
+      created_at:
+        type: string
+      deleted_at:
+        type: integer
+      description:
+        type: string
+      duration:
+        type: integer
+      gym_id:
+        type: string
+      id:
+        type: string
+      price:
+        type: integer
+      time:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  booking.SubscriptionPersonal:
+    properties:
+      count:
+        type: integer
+      created_at:
+        type: string
+      deleted_at:
+        type: integer
+      description:
+        type: string
+      duration:
+        type: integer
+      gym_id:
+        type: string
+      id:
+        type: string
+      price:
+        type: integer
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This is a sample server celler server.
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /v1/access/coach:
+    post:
+      consumes:
+      - application/json
+      description: Create a new access coach record with the provided details.
+      parameters:
+      - description: Access Coach details
+        in: body
+        name: access_coach
+        required: true
+        schema:
+          $ref: '#/definitions/booking.CreateAccessCoachRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/booking.AccessCoach'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Access Coach record
+      tags:
+      - Access
+  /v1/access/coach/{booking_coach_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of access coach records for a specific booking.
+      parameters:
+      - description: Booking Coach ID
+        in: path
+        name: booking_coach_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.ListAccessCoachResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List Access Coach records
+      tags:
+      - Access
+  /v1/access/group:
+    post:
+      consumes:
+      - application/json
+      description: Create a new access group record with the provided details.
+      parameters:
+      - description: Access Group details
+        in: body
+        name: access_group
+        required: true
+        schema:
+          $ref: '#/definitions/booking.CreateAccessGroupRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/booking.AccessGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Access Group record
+      tags:
+      - Access
+  /v1/access/group/{booking_group_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of access group records for a specific booking.
+      parameters:
+      - description: Booking Group ID
+        in: path
+        name: booking_group_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.ListAccessGroupResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List Access Group records
+      tags:
+      - Access
+  /v1/access/personal:
+    post:
+      consumes:
+      - application/json
+      description: Create a new access personal record with the provided details.
+      parameters:
+      - description: Access Personal details
+        in: body
+        name: access_personal
+        required: true
+        schema:
+          $ref: '#/definitions/booking.CreateAccessPersonalRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/booking.AccessPersonal'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Access Personal record
+      tags:
+      - Access
+  /v1/access/personal/{booking_personal_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of access personal records for a specific booking.
+      parameters:
+      - description: Booking Personal ID
+        in: path
+        name: booking_personal_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.ListAccessPersonalResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List Access Personal records
+      tags:
+      - Access
+  /v1/booking-coach:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of booking coach records.
+      parameters:
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        type: string
+      - description: Filter by subscription ID
+        in: query
+        name: subscription_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.ListBookingCoachResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List Booking Coach
+      tags:
+      - BookingCoach
+    post:
+      consumes:
+      - application/json
+      description: Create a new booking coach with the provided details.
+      parameters:
+      - description: Booking Coach details
+        in: body
+        name: booking_coach
+        required: true
+        schema:
+          $ref: '#/definitions/booking.BookingCoach'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/booking.BookingCoach'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Booking Coach
+      tags:
+      - BookingCoach
+  /v1/booking-coach/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a booking coach by its ID.
+      parameters:
+      - description: Booking Coach ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Booking Coach
+      tags:
+      - BookingCoach
+    get:
+      consumes:
+      - application/json
+      description: Get details of a booking coach by its ID.
+      parameters:
+      - description: Booking Coach ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.BookingCoach'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get Booking Coach by ID
+      tags:
+      - BookingCoach
+    put:
+      consumes:
+      - application/json
+      description: Update an existing booking coach.
+      parameters:
+      - description: Booking Coach ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated booking coach
+        in: body
+        name: booking_coach
+        required: true
+        schema:
+          $ref: '#/definitions/booking.BookingCoach'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.BookingCoach'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update Booking Coach
+      tags:
+      - BookingCoach
+  /v1/booking-group:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of booking group records.
+      parameters:
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.ListBookingGroupResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List Booking Group
+      tags:
+      - BookingGroup
+    post:
+      consumes:
+      - application/json
+      description: Create a new booking group with the provided details.
+      parameters:
+      - description: Booking Group details
+        in: body
+        name: booking_group
+        required: true
+        schema:
+          $ref: '#/definitions/booking.BookingGroup'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/booking.BookingGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Booking Group
+      tags:
+      - BookingGroup
+  /v1/booking-group/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a booking group by its ID.
+      parameters:
+      - description: Booking Group ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Booking Group
+      tags:
+      - BookingGroup
+    get:
+      consumes:
+      - application/json
+      description: Get details of a booking group by its ID.
+      parameters:
+      - description: Booking Group ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.BookingGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get Booking Group by ID
+      tags:
+      - BookingGroup
+    put:
+      consumes:
+      - application/json
+      description: Update an existing booking group.
+      parameters:
+      - description: Booking Group ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated booking group
+        in: body
+        name: booking_group
+        required: true
+        schema:
+          $ref: '#/definitions/booking.BookingGroup'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.BookingGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update Booking Group
+      tags:
+      - BookingGroup
+  /v1/booking-personal:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of booking personal records.
+      parameters:
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.ListBookingPersonalResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List Booking Personal
+      tags:
+      - BookingPersonal
+    post:
+      consumes:
+      - application/json
+      description: Create a new booking personal with the provided details.
+      parameters:
+      - description: Booking Personal details
+        in: body
+        name: booking_personal
+        required: true
+        schema:
+          $ref: '#/definitions/booking.BookingPersonal'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/booking.BookingPersonal'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Booking Personal
+      tags:
+      - BookingPersonal
+  /v1/booking-personal/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a booking personal by its ID.
+      parameters:
+      - description: Booking Personal ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Booking Personal
+      tags:
+      - BookingPersonal
+    get:
+      consumes:
+      - application/json
+      description: Get details of a booking personal by its ID.
+      parameters:
+      - description: Booking Personal ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.BookingPersonal'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get Booking Personal by ID
+      tags:
+      - BookingPersonal
+    put:
+      consumes:
+      - application/json
+      description: Update an existing booking personal.
+      parameters:
+      - description: Booking Personal ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated booking personal
+        in: body
+        name: booking_personal
+        required: true
+        schema:
+          $ref: '#/definitions/booking.BookingPersonal'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.BookingPersonal'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update Booking Personal
+      tags:
+      - BookingPersonal
+  /v1/subscription-coach:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of subscription coach records.
+      parameters:
+      - description: Filter by gym ID
+        in: query
+        name: gym_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.ListSubscriptionCoachResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List Subscription Coach
+      tags:
+      - SubscriptionCoach
+    post:
+      consumes:
+      - application/json
+      description: Create a new subscription coach with the provided details.
+      parameters:
+      - description: Subscription Coach details
+        in: body
+        name: subscription_coach
+        required: true
+        schema:
+          $ref: '#/definitions/booking.SubscriptionCoach'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/booking.SubscriptionCoach'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Subscription Coach
+      tags:
+      - SubscriptionCoach
+  /v1/subscription-coach/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a subscription coach by its ID.
+      parameters:
+      - description: Subscription Coach ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Subscription Coach
+      tags:
+      - SubscriptionCoach
+    get:
+      consumes:
+      - application/json
+      description: Get details of a subscription coach by its ID.
+      parameters:
+      - description: Subscription Coach ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.SubscriptionCoach'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get Subscription Coach by ID
+      tags:
+      - SubscriptionCoach
+    put:
+      consumes:
+      - application/json
+      description: Update an existing subscription coach.
+      parameters:
+      - description: Subscription Coach ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated subscription coach
+        in: body
+        name: subscription_coach
+        required: true
+        schema:
+          $ref: '#/definitions/booking.SubscriptionCoach'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.SubscriptionCoach'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update Subscription Coach
+      tags:
+      - SubscriptionCoach
+  /v1/subscription-group:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of subscription group records.
+      parameters:
+      - description: Filter by gym ID
+        in: query
+        name: gym_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.ListSubscriptionGroupResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List Subscription Group
+      tags:
+      - SubscriptionGroup
+    post:
+      consumes:
+      - application/json
+      description: Create a new subscription group with the provided details.
+      parameters:
+      - description: Subscription Group details
+        in: body
+        name: subscription_group
+        required: true
+        schema:
+          $ref: '#/definitions/booking.SubscriptionGroup'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/booking.SubscriptionGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Subscription Group
+      tags:
+      - SubscriptionGroup
+  /v1/subscription-group/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a subscription group by its ID.
+      parameters:
+      - description: Subscription Group ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Subscription Group
+      tags:
+      - SubscriptionGroup
+    get:
+      consumes:
+      - application/json
+      description: Get details of a subscription group by its ID.
+      parameters:
+      - description: Subscription Group ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.SubscriptionGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get Subscription Group by ID
+      tags:
+      - SubscriptionGroup
+    put:
+      consumes:
+      - application/json
+      description: Update an existing subscription group.
+      parameters:
+      - description: Subscription Group ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated subscription group
+        in: body
+        name: subscription_group
+        required: true
+        schema:
+          $ref: '#/definitions/booking.SubscriptionGroup'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.SubscriptionGroup'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update Subscription Group
+      tags:
+      - SubscriptionGroup
+  /v1/subscription-personal:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of subscription personal records.
+      parameters:
+      - description: Filter by gym ID
+        in: query
+        name: gym_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.ListSubscriptionPersonalResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: List Subscription Personal
+      tags:
+      - SubscriptionPersonal
+    post:
+      consumes:
+      - application/json
+      description: Create a new subscription personal with the provided details.
+      parameters:
+      - description: Subscription Personal details
+        in: body
+        name: subscription_personal
+        required: true
+        schema:
+          $ref: '#/definitions/booking.SubscriptionPersonal'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/booking.SubscriptionPersonal'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new Subscription Personal
+      tags:
+      - SubscriptionPersonal
+  /v1/subscription-personal/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a subscription personal by its ID.
+      parameters:
+      - description: Subscription Personal ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Subscription Personal
+      tags:
+      - SubscriptionPersonal
+    get:
+      consumes:
+      - application/json
+      description: Get details of a subscription personal by its ID.
+      parameters:
+      - description: Subscription Personal ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.SubscriptionPersonal'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get Subscription Personal by ID
+      tags:
+      - SubscriptionPersonal
+    put:
+      consumes:
+      - application/json
+      description: Update an existing subscription personal.
+      parameters:
+      - description: Subscription Personal ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated subscription personal
+        in: body
+        name: subscription_personal
+        required: true
+        schema:
+          $ref: '#/definitions/booking.SubscriptionPersonal'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.SubscriptionPersonal'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update Subscription Personal
+      tags:
+      - SubscriptionPersonal
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

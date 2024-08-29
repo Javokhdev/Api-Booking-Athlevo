@@ -1,0 +1,215 @@
+# Citizen Service
+p, admin, /v1/citizen, POST
+p, user, /v1/citizen/:citizen_id, GET
+p, user, /v1/citizen/:citizen_id, PUT
+p, user, /v1/citizen/service-requests, POST
+p, user, /v1/citizen/:citizen_id/service-requests, GET
+p, user, /v1/citizen/:citizen_id/documents, POST
+p, user, /v1/citizen/:citizen_id/documents/:document_id, GET
+p, user, /v1/citizen/:citizen_id/notifications/preferences, PUT
+p, user, /v1/citizen/:citizen_id/service-usage, GET
+
+# City Service
+p, admin, /v1/city/building-permits, POST
+p, user, /v1/city/building-permits, GET
+p, admin, /v1/city/building-permits/:permit_id, GET
+p, admin, /v1/city/building-permits/:permit_id, PUT
+p, admin, /v1/city/building-permits/:permit_id, DELETE
+
+p, admin, /v1/city/planning-proposals, POST
+p, user, /v1/city/planning-proposals, GET
+p, admin, /v1/city/planning-proposals/:proposal_id, GET
+p, admin, /v1/city/planning-proposals/:proposal_id, PUT
+p, admin, /v1/city/planning-proposals/:proposal_id, DELETE
+
+p, admin, /v1/city/zones, POST
+p, user, /v1/city/zones, GET
+p, admin, /v1/city/zones/:zone_id, GET
+p, admin, /v1/city/zones/:zone_id, PUT
+p, admin, /v1/city/zones/:zone_id, DELETE
+
+p, admin, /v1/city/demographic-data, POST
+p, user, /v1/city/demographic-data, GET
+p, admin, /v1/city/demographic-data/:data_id, GET
+p, admin, /v1/city/demographic-data/:data_id, PUT
+p, admin, /v1/city/demographic-data/:data_id, DELETE
+
+p, admin, /v1/city/infrastructure-assets, POST
+p, user, /v1/city/infrastructure-assets, GET
+p, admin, /v1/city/infrastructure-assets/:asset_id, GET
+p, admin, /v1/city/infrastructure-assets/:asset_id, PUT
+p, admin, /v1/city/infrastructure-assets/:asset_id, DELETE
+
+p, admin, /v1/city/planning-proposals/zone, POST
+p, user, /v1/city/planning-proposals/zone, GET
+p, admin, /v1/city/planning-proposals/zone/:proposal_id, GET
+p, admin, /v1/city/planning-proposals/zone/:proposal_id, PUT
+p, admin, /v1/city/planning-proposals/zone/:proposal_id, DELETE
+
+p, user, /v1/city/planning-proposals/feedback, POST
+p, admin, /v1/city/planning-proposals/feedback, GET 
+p, user, /v1/city/planning-proposals/feedback/:feedback_id, GET
+p, user, /v1/city/planning-proposals/feedback/:feedback_id, PUT
+p, user, /v1/city/planning-proposals/feedback/:feedback_id, DELETE
+
+# Emergency Service
+p, user, /v1/emergency/create-incident, POST
+p, admin, /v1/emergency/get-incident/:incident_id, GET
+p, user, /v1/emergency/list-incidents, GET
+p, admin, /v1/emergency/update-incident/:incident_id, PUT
+p, admin, /v1/emergency/delete-incident/:incident_id, DELETE
+
+p, admin, /v1/emergency/create-resource, POST
+p, admin, /v1/emergency/get-resource/:resource_id, GET
+p, admin, /v1/emergency/update-resource/:resource_id, PUT
+p, admin, /v1/emergency/delete-resource/:resource_id, DELETE
+p, admin, /v1/emergency/update-resource-status/:resource_id, PUT
+
+p, admin, /v1/emergency/dispatch-resource, POST
+p, admin, /v1/emergency/get-dispatch/:dispatch_id, GET
+p, admin, /v1/emergency/update-dispatch/:dispatch_id, PUT
+p, admin, /v1/emergency/delete-dispatch/:dispatch_id, DELETE
+p, admin, /v1/emergency/arrive-resource/:dispatch_id, PUT
+
+p, admin, /v1/emergency/list-resources, GET
+p, admin, /v1/emergency/create-alert, POST
+
+# Energy Management Service
+p, admin, /v1/energy/buildings, POST 
+p, user, /v1/energy/buildings/:building_id, GET
+p, admin, /v1/energy/buildings/:building_id, PUT
+p, admin, /v1/energy/buildings/:building_id, DELETE
+p, user, /v1/energy/buildings, GET
+
+p, admin, /v1/energy/meters, POST 
+p, user, /v1/energy/meters/:meter_id, GET
+p, admin, /v1/energy/meters/:meter_id, PUT
+p, admin, /v1/energy/meters/:meter_id, DELETE
+p, user, /v1/energy/meters, GET
+
+p, admin, /v1/energy/readings, POST 
+p, user, /v1/energy/readings/:reading_id, GET
+p, admin, /v1/energy/readings/:reading_id, PUT
+p, admin, /v1/energy/readings/:reading_id, DELETE
+p, user, /v1/energy/readings, GET
+
+p, user, /v1/energy/consumption/city/daily, GET
+p, user, /v1/energy/consumption/building/:building_id/hourly, GET
+
+p, user, /v1/energy/readings/submit, POST 
+p, admin, /v1/energy/grid/:sector_id/status, GET
+p, user, /v1/energy/grid/outages, POST 
+p, user, /v1/energy/tips/:citizen_id, GET
+p, user, /v1/energy/demand-response/enroll, POST 
+p, user, /v1/energy/demand-response/events/:citizen_id, GET 
+p, admin, /v1/energy/renewable-sources, POST
+
+# Transportation Service 
+p, admin, /v1/transport/incidents, POST
+p, user, /v1/transport/incidents/:incident_id, GET
+p, admin, /v1/transport/incidents/:incident_id, PUT 
+p, admin, /v1/transport/incidents/:incident_id, DELETE 
+p, user, /v1/transport/incidents, GET
+
+p, admin, /v1/transport/parking_lots, POST
+p, user, /v1/transport/parking_lots/:lot_id, GET 
+p, admin, /v1/transport/parking_lots/:lot_id, PUT
+p, admin, /v1/transport/parking_lots/:lot_id, DELETE
+p, user, /v1/transport/parking_lots, GET
+
+p, admin, /v1/transport/parking_spaces, POST
+p, user, /v1/transport/parking_spaces/:space_id, GET
+p, admin, /v1/transport/parking_spaces/:space_id, PUT
+p, admin, /v1/transport/parking_spaces/:space_id, DELETE
+p, user, /v1/transport/parking_spaces, GET
+
+p, admin, /v1/transport/roads, POST
+p, user, /v1/transport/roads/:road_id, GET
+p, admin, /v1/transport/roads/:road_id, PUT
+p, admin, /v1/transport/roads/:road_id, DELETE
+p, user, /v1/transport/roads, GET
+
+p, admin, /v1/transport/route_schedules, POST
+p, user, /v1/transport/route_schedules/:schedule_id, GET
+p, admin, /v1/transport/route_schedules/:schedule_id, PUT
+p, admin, /v1/transport/route_schedules/:schedule_id, DELETE
+p, user, /v1/transport/route_schedules, GET
+
+p, admin, /v1/transport/routes, POST
+p, user, /v1/transport/routes/:route_id, GET
+p, admin, /v1/transport/routes/:route_id, PUT
+p, admin, /v1/transport/routes/:route_id, DELETE
+p, user, /v1/transport/routes, GET
+
+p, admin, /v1/transport/traffic_conditions, POST
+p, user, /v1/transport/traffic_conditions/:condition_id, GET 
+p, admin, /v1/transport/traffic_conditions/:condition_id, PUT 
+p, admin, /v1/transport/traffic_conditions/:condition_id, DELETE
+p, user, /v1/transport/traffic_conditions, GET
+
+p, admin, /v1/transport/vehicles, POST
+p, user, /v1/transport/vehicles/:vehicle_id, GET
+p, admin, /v1/transport/vehicles/:vehicle_id, PUT
+p, admin, /v1/transport/vehicles/:vehicle_id, DELETE
+p, user, /v1/transport/vehicles, GET
+
+# Environmental Service
+p, admin, /v1/environmental/air_quality_readings, POST
+p, user, /v1/environmental/air_quality_readings/:reading_id, GET
+p, admin, /v1/environmental/air_quality_readings/:reading_id, PUT
+p, admin, /v1/environmental/air_quality_readings/:reading_id, DELETE
+p, user, /v1/environmental/air_quality_readings, GET
+
+p, admin, /v1/environmental/air_quality_stations, POST 
+p, user, /v1/environmental/air_quality_stations/:station_id, GET
+p, admin, /v1/environmental/air_quality_stations/:station_id, PUT
+p, admin, /v1/environmental/air_quality_stations/:station_id, DELETE
+p, user, /v1/environmental/air_quality_stations, GET
+
+p, admin, /v1/environmental/green_spaces, POST
+p, user, /v1/environmental/green_spaces/:space_id, GET
+p, admin, /v1/environmental/green_spaces/:space_id, PUT
+p, admin, /v1/environmental/green_spaces/:space_id, DELETE
+p, user, /v1/environmental/green_spaces, GET
+
+p, admin, /v1/environmental/noise_level_readings, POST 
+p, user, /v1/environmental/noise_level_readings/:reading_id, GET
+p, admin, /v1/environmental/noise_level_readings/:reading_id, PUT
+p, admin, /v1/environmental/noise_level_readings/:reading_id, DELETE
+p, user, /v1/environmental/noise_level_readings, GET
+
+p, admin, /v1/environmental/noise_monitoring_zones, POST
+p, user, /v1/environmental/noise_monitoring_zones/:zone_id, GET
+p, admin, /v1/environmental/noise_monitoring_zones/:zone_id, PUT
+p, admin, /v1/environmental/noise_monitoring_zones/:zone_id, DELETE
+p, user, /v1/environmental/noise_monitoring_zones, GET
+
+p, admin, /v1/environmental/plant_registry, POST
+p, user, /v1/environmental/plant_registry/:registry_id, GET
+p, admin, /v1/environmental/plant_registry/:registry_id, PUT
+p, admin, /v1/environmental/plant_registry/:registry_id, DELETE
+p, user, /v1/environmental/plant_registry, GET
+
+p, admin, /v1/environmental/recycling_centers, POST
+p, user, /v1/environmental/recycling_centers/:center_id, GET
+p, admin, /v1/environmental/recycling_centers/:center_id, PUT
+p, admin, /v1/environmental/recycling_centers/:center_id, DELETE
+p, user, /v1/environmental/recycling_centers, GET
+
+p, admin, /v1/environmental/waste_collection_schedules, POST 
+p, user, /v1/environmental/waste_collection_schedules/:schedule_id, GET
+p, admin, /v1/environmental/waste_collection_schedules/:schedule_id, PUT
+p, admin, /v1/environmental/waste_collection_schedules/:schedule_id, DELETE
+p, user, /v1/environmental/waste_collection_schedules, GET
+
+p, admin, /v1/environmental/water_quality_reports, POST 
+p, user, /v1/environmental/water_quality_reports/:report_id, GET
+p, admin, /v1/environmental/water_quality_reports/:report_id, PUT
+p, admin, /v1/environmental/water_quality_reports/:report_id, DELETE
+p, user, /v1/environmental/water_quality_reports, GET
+
+p, admin, /v1/environmental/water_treatment_plants, POST
+p, user, /v1/environmental/water_treatment_plants/:plant_id, GET
+p, admin, /v1/environmental/water_treatment_plants/:plant_id, PUT 
+p, admin, /v1/environmental/water_treatment_plants/:plant_id, DELETE 
+p, user, /v1/environmental/water_treatment_plants, GET 

@@ -103,6 +103,10 @@ func NewRouter(grpcConn *grpc.ClientConn, cfg *config.Config) *gin.Engine {
 			access.POST("/coach", handler.AccessHandler.CreateAccessCoach)
 			access.GET("/coach/:booking_coach_id", handler.AccessHandler.ListAccessCoach)
 		}
+		accessBeta := v1.Group("/access-beta")
+		{
+			accessBeta.GET("/personal/:sport_hall_id", handler.AccessBetaHandler.CheckUserAccessBetaPersonal)
+		}
 	}
 
 	return router

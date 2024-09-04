@@ -14,6 +14,7 @@ type Handler struct {
 	SubscriptionGroupHandler    *SubscriptionGroupHandler
 	SubscriptionCoachHandler    *SubscriptionCoachHandler
 	AccessHandler               *AccessHandler
+	AccessBetaHandler           *AccessBetaHandler
 }
 
 // NewHandler creates a new Handler instance with initialized individual handlers.
@@ -26,5 +27,6 @@ func NewHandler(grpcConn *grpc.ClientConn, cfg *config.Config) *Handler {
 		SubscriptionGroupHandler:    NewSubscriptionGroupHandler(grpcConn),
 		SubscriptionCoachHandler:    NewSubscriptionCoachHandler(grpcConn),
 		AccessHandler:               NewAccessHandler(grpcConn),
+		AccessBetaHandler:           NewAccessBetaHandler(grpcConn),
 	}
 }

@@ -1,4 +1,10 @@
 definitions:
+  booking.AccessBetaPersonalResponse:
+    properties:
+      message:
+        description: '"granted" or "denied"'
+        type: string
+    type: object
   booking.AccessCoach:
     properties:
       booking_coach_id:
@@ -249,6 +255,40 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /v1/access-beta/personal/{sport_hall_id}:
+    get:
+      consumes:
+      - application/json
+      description: Checks if a user has access to a specific sport hall for a personal
+        subscription.
+      parameters:
+      - description: Sport Hall ID
+        in: path
+        name: sport_hall_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/booking.AccessBetaPersonalResponse'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Check User Access (Beta) for Personal Subscription
+      tags:
+      - Access Beta
   /v1/access/coach:
     post:
       consumes:

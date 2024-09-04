@@ -16,6 +16,57 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/access-beta/personal/{sport_hall_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Checks if a user has access to a specific sport hall for a personal subscription.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Access Beta"
+                ],
+                "summary": "Check User Access (Beta) for Personal Subscription",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Sport Hall ID",
+                        "name": "sport_hall_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/booking.AccessBetaPersonalResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/v1/access/coach": {
             "post": {
                 "security": [
@@ -1896,6 +1947,15 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "booking.AccessBetaPersonalResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "description": "\"granted\" or \"denied\"",
+                    "type": "string"
+                }
+            }
+        },
         "booking.AccessCoach": {
             "type": "object",
             "properties": {

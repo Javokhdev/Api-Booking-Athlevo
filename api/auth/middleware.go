@@ -1,73 +1,149 @@
 package auth
 
 import (
+	"errors"
+	"log"
 	"net/http"
 	"strings"
 
-	"github.com/Athlevo/Api_booking_Athlevo/config"
+	_ "github.com/Athlevo/Api_booking_Athlevo/api/docs"
+	"github.com/Athlevo/Api_booking_Athlevo/api/token"
+
+	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
 )
 
-// AuthMiddleware is a Gin middleware function that checks for a valid JWT token.
-func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
+const (
+	ContextUserID = "userID"
+	ContextRole   = "role"
+)
+
+func CasbinEnforcer() *casbin.Enforcer {
+	e, err := casbin.NewEnforcer("config/casbin/casbin.conf", "config/casbin/casbin.csv")
+	if err != nil {
+		log.Fatalf("Failed to initialize Casbin enforcer: %v", err)
+	}
+	return e
+}
+
+// JWT Middleware for token validation
+func JWTMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Get the Authorization header
 		authHeader := c.GetHeader("Authorization")
-
-		// Check if the header is present and in the correct format
-		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header required"})
+		if authHeader == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization header required"})
+			c.Abort()
 			return
 		}
 
-		// Extract the token from the header
-		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+		if !strings.HasPrefix(authHeader, "") {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid authorization header format"})
+			c.Abort()
+			return
+		}
 
-		// Initialize the JWT manager
-		jwtManager := NewJWTManager(cfg)
+		tokenString := strings.TrimPrefix(authHeader, "")
 
-		// Verify the token
-		claims, err := jwtManager.Verify(tokenString)
+		valid, err := token.ValidateToken(tokenString)
+		if err != nil || !valid {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token", "details": err.Error()})
+			c.Abort()
+			return
+		}
+
+		claims, err := token.ExtractClaim(tokenString)
 		if err != nil {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims", "details": err.Error()})
+			c.Abort()
 			return
 		}
 
-		// Set the user ID and role in the Gin context
-		c.Set("userID", claims.GetUserID())
-		c.Set("userRole", claims.GetUserRole())
+		userID, ok := claims["user_id"].(string)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid user_id claim"})
+			c.Abort()
+			return
+		}
 
-		// Proceed to the next handler
+		role, ok := claims["role"].(string)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid role claim"})
+			c.Abort()
+			return
+		}
+
+		c.Set(ContextUserID, userID)
+		c.Set(ContextRole, role)
+
 		c.Next()
 	}
 }
 
-// AuthorizationMiddleware checks if the authenticated user is authorized to access the resource.
-func AuthorizationMiddleware() gin.HandlerFunc {
+// Casbin Middleware for RBAC
+func CasbinMiddleware(enforcer *casbin.Enforcer) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Get user ID and role from the context
-		userID, ok := c.Get("userID")
-		if !ok {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "User ID not found in context"})
-			return
-		}
-		userRole, ok := c.Get("userRole")
-		if !ok {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "User role not found in context"})
-			return
-		}
+		userRole := c.GetString(ContextRole)
 
-		// Get the resource ID from the request parameters (assuming it's named "userId")
-		resourceID := c.Param("user_id")
-
-		// Check if the user is authorized: either admin, doctor, or accessing their own resource
-		if userRole == "admin" || userRole == "doctor" || userID == resourceID {
-			// User is authorized
-			c.Next()
+		allowed, err := enforcer.Enforce(userRole, c.FullPath(), c.Request.Method)
+		if err != nil {
+			log.Println("Casbin enforcement error:", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error enforcing access control"})
+			c.Abort()
 			return
 		}
 
-		// User is not authorized
-		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Unauthorized access"})
+		if !allowed {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Access denied"})
+			c.Abort()
+			return
+		}
+
+		c.Next()
 	}
+}
+
+// Utility to get user ID from request
+func GetUserId(r *http.Request) (string, error) {
+	jwtToken := r.Header.Get("Authorization")
+
+	if jwtToken == "" || strings.Contains(jwtToken, "Basic") {
+		return "", errors.New("unauthorized")
+	}
+
+	if !strings.HasPrefix(jwtToken, "") {
+		return "", errors.New("invalid authorization header format")
+	}
+
+	tokenString := strings.TrimPrefix(jwtToken, "")
+
+	claims, err := token.ExtractClaim(tokenString)
+	if err != nil {
+		log.Println("Error while extracting claims:", err)
+		return "", err
+	}
+
+	userID, ok := claims["user_id"].(string)
+	if !ok {
+		return "", errors.New("user_id claim not found")
+	}
+	return userID, nil
+}
+
+// Error handlers
+func InvalidToken(c *gin.Context) {
+	c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
+		"error": "Invalid token",
+	})
+}
+
+func RequirePermission(c *gin.Context) {
+	c.AbortWithStatusJSON(http.StatusForbidden, gin.H{
+		"error": "Permission denied",
+	})
+}
+
+func RequireRefresh(c *gin.Context) {
+	c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+		"error": "Access token expired",
+	})
 }

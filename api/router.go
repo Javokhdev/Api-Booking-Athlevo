@@ -10,6 +10,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"google.golang.org/grpc"
+																											
 )
 
 // @title           Swagger Example API
@@ -31,7 +32,9 @@ func NewRouter(grpcConn *grpc.ClientConn, cfg *config.Config) *gin.Engine {
 	// API versioning
 	v1 := router.Group("/v1")
 
-	v1.Use(auth.AuthMiddleware(cfg))
+	ca := auth.CasbinEnforcer()
+
+	v1.Use(auth.CasbinMiddleware(ca))
 	{
 		// Booking Personal routes
 		bookingPersonal := v1.Group("/booking-personal")

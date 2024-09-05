@@ -9,17 +9,6 @@ services:
     networks:
       - global-network
 
-  postgres:
-      image: postgres:14
-      container_name: postgres_dock
-      environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: root
-        POSTGRES_DB: booking
-      ports:
-        - "5432:5432"
-      networks:
-        - global-network
 # Docker Networks
 networks:
   global-network:

@@ -34,6 +34,7 @@ func NewRouter(grpcConn *grpc.ClientConn, cfg *config.Config) *gin.Engine {
 
 	ca := auth.CasbinEnforcer()
 
+	v1.Use(auth.JWTMiddleware())
 	v1.Use(auth.CasbinMiddleware(ca))
 	{
 		// Booking Personal routes

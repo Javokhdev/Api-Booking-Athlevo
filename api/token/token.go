@@ -2,52 +2,13 @@ package token
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/golang-jwt/jwt"
+	"golang.org/x/crypto/bcrypt"
 )
 
-const (
-	signingKey = "mrbek"
-)
-
-type Tokens struct {
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
-}
-
-// func GenerateJWTToken(userID string, email string, username string, role string) *Tokens {
-// 	accessToken := jwt.New(jwt.SigningMethodHS256)
-// 	refreshToken := jwt.New(jwt.SigningMethodHS256)
-
-// 	claims := accessToken.Claims.(jwt.MapClaims)
-// 	claims["user_id"] = userID
-// 	claims["email"] = email
-// 	claims["role"] = role
-// 	claims["username"] = username
-// 	claims["iat"] = time.Now().Unix()
-// 	claims["exp"] = time.Now().Add(180 * time.Minute).Unix() // Token expires in 3 minutes
-// 	access, err := accessToken.SignedString([]byte(signingKey))
-// 	if err != nil {
-// 		log.Fatal("error while generating access token : ", err)
-// 	}
-
-// 	rftClaims := refreshToken.Claims.(jwt.MapClaims)
-// 	rftClaims["user_id"] = userID
-// 	rftClaims["email"] = email
-// 	rftClaims["username"] = username
-// 	rftClaims["role"] = role
-// 	rftClaims["iat"] = time.Now().Unix()
-// 	rftClaims["exp"] = time.Now().Add(24 * time.Hour).Unix() // Refresh token expires in 24 hours
-// 	refresh, err := refreshToken.SignedString([]byte(signingKey))
-// 	if err != nil {
-// 		log.Fatal("error while generating refresh token : ", err)
-// 	}
-
-// 	return &Tokens{
-// 		AccessToken:  access,
-// 		RefreshToken: refresh,
-// 	}
-// }
+const signingKey = "secret_key"
 
 func ValidateToken(tokenStr string) (bool, error) {
 	_, err := ExtractClaim(tokenStr)
@@ -62,8 +23,9 @@ func ExtractClaim(tokenStr string) (jwt.MapClaims, error) {
 		return []byte(signingKey), nil
 	})
 	if err != nil {
-		return nil, errors.New("parsing token:" + err.Error())
+		return nil, fmt.Errorf("parsing token: %w", err)
 	}
+
 	if !token.Valid {
 		return nil, errors.New("invalid token")
 	}
@@ -74,4 +36,9 @@ func ExtractClaim(tokenStr string) (jwt.MapClaims, error) {
 	}
 
 	return claims, nil
+}
+
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
 }

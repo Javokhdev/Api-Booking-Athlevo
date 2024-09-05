@@ -35,7 +35,7 @@ func JWTMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
+		log.Println(authHeader,"ghvghvbh")
 		if !strings.HasPrefix(authHeader, "") {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid authorization header format"})
 			c.Abort()
@@ -83,7 +83,7 @@ func JWTMiddleware() gin.HandlerFunc {
 func CasbinMiddleware(enforcer *casbin.Enforcer) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userRole := c.GetString(ContextRole)
-
+		log.Println(userRole, c.FullPath(), c.Request.Method)
 		allowed, err := enforcer.Enforce(userRole, c.FullPath(), c.Request.Method)
 		if err != nil {
 			log.Println("Casbin enforcement error:", err)

@@ -39,7 +39,7 @@ func Load() Config {
 	config := Config{}
 
 	config.HTTPPort = cast.ToString(coalesce("HTTP_PORT", ":8081"))
-	config.BookingSvcAddr = cast.ToString(coalesce("BOOKING_PORT", ":8082"))
+	config.BookingSvcAddr = cast.ToString(coalesce("BOOKING_PORT", "booking:8082"))
 
 	config.KafkaBrokers = cast.ToStringSlice(coalesce("KAFKA_BROKERS", []string{"localhost:9092"}))
 	config.KafkaBrokersTest = cast.ToStringSlice(coalesce("KAFKA_BROKERS_Test", []string{"localhost:9092"}))

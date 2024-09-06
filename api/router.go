@@ -4,13 +4,13 @@ import (
 	"github.com/Athlevo/Api_booking_Athlevo/api/auth"
 	_ "github.com/Athlevo/Api_booking_Athlevo/api/docs"
 	handlers "github.com/Athlevo/Api_booking_Athlevo/api/handler"
+	"github.com/gin-contrib/cors"
 
 	"github.com/Athlevo/Api_booking_Athlevo/config"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"google.golang.org/grpc"
-																											
 )
 
 // @title           Swagger Example API
@@ -26,6 +26,13 @@ func NewRouter(grpcConn *grpc.ClientConn, cfg *config.Config) *gin.Engine {
 
 	// Swagger documentation
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	handler := handlers.NewHandler(grpcConn, cfg)
 

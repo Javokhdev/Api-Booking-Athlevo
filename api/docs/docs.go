@@ -1708,7 +1708,8 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Filter by gym ID",
                         "name": "gym_id",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {

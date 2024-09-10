@@ -162,7 +162,7 @@ func (h *SubscriptionPersonalHandler) DeleteSubscriptionPersonal(c *gin.Context)
 // @Tags        SubscriptionPersonal
 // @Accept      json
 // @Produce     json
-// @Param        gym_id             query    string false  "Filter by gym ID"
+// @Param        gym_id             query    string true  "Filter by gym ID"
 // @Security    ApiKeyAuth
 // @Success     200     {object} booking.ListSubscriptionPersonalResponse
 // @Failure     500     {object} map[string]interface{}

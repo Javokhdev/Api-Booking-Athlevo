@@ -108,11 +108,11 @@ func (h *BookingPersonalHandler) UpdateBookingPersonal(c *gin.Context) {
 	}
 
 	// Ensure the ID in the URL matches the ID in the payload
-	if bookingPersonal.Id != bookingPersonalID {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "ID mismatch"})
+	if len(bookingPersonalID) != 36 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ID required"})
 		return
 	}
-
+	bookingPersonal.Id = bookingPersonalID
 	// Use gRPC to update the booking personal
 	grpcResponse, err := h.service.UpdateBookingPersonal(context.Background(), &booking.UpdateBookingPersonalRequest{BookingPersonal: &bookingPersonal})
 	if err != nil {
